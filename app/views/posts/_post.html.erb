@@ -1,15 +1,21 @@
-<div id="<%= dom_id post %>" class="border-slate-500 border-2 p-4">
-  <p>
-    <strong>Title:</strong>
-    <%= post.title %>
-  </p>
-
-  <p>
-    <strong>Body:</strong>
-    <%= post.body %>
-  </p>
-  <div class="flex gap-2">
-    <%= button_to "Edit this post", edit_post_path(post) %>
-    <%= button_to "Destroy this post", post, method: :delete %>
-  </div>
+<div class="relative border-slate-600 border-2 p-4">
+  <% frame_id = dom_id(post, "title_turbo_frame") %>
+  <%= form_with model: post, data: { turbo_frame: frame_id } do %>
+    <%= turbo_frame_tag frame_id do %>
+      <h1>
+        <%= post.title %>
+      </h1>
+      <%= link_to "Edit Title", edit_post_path(post), class: "text-sm" %>
+    <% end %>
+  <% end %>
+  <% frame_id = dom_id(post, "body_turbo_frame") %>
+  <%= form_with model: post, data: { turbo_frame: frame_id } do %>
+    <%= turbo_frame_tag frame_id do %>
+      <p>
+        <%= post.body %>
+      </p>
+      <%= link_to "Edit Body", edit_post_path(post), class: "text-sm" %>
+    <% end %>
+  <% end %>
+  <%= button_to "Delete", post, method: :delete, class: "absolute top-0 right-0 mr-2" %>
 </div>
